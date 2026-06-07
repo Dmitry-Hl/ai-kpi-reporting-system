@@ -1,6 +1,6 @@
 # AI KPI Reporting System
 
-> Automated weekly reporting pipeline that transforms raw business data into AI-generated executive insights — delivered every Monday without manual effort.
+> AI-powered executive reporting platform that consolidates operational, CRM, analytics and marketing data into a unified KPI mart and automatically generates weekly business insights.
 
 ---
 
@@ -8,63 +8,176 @@
 
 A multi-channel restaurant chain generates data across multiple systems, including POS, CRM, advertising platforms, analytics tools, and loyalty programs.
 
-Preparing a weekly executive report required manual consolidation, validation and interpretation of data every week, resulting in significant time investment and potential inconsistencies.
+Preparing weekly executive reports required manual data extraction, consolidation, validation and interpretation across multiple sources. The process was time-consuming, difficult to scale and prone to inconsistencies.
 
 ---
 
 ## Solution
 
-An end-to-end automated reporting system that runs every Monday and delivers:
+An end-to-end automated reporting platform that runs every Monday and delivers:
 
-* AI-generated executive summaries with key risks and recommendations
+* AI-generated executive summaries with key business insights, risks and recommendations
 * Interactive dashboards updated automatically
-* Structured Telegram notifications with key business signals
+* Structured Telegram notifications for stakeholders
+* Centralized KPI reporting based on a unified weekly data model
 
 ---
 
 ## Outcomes
 
-* ⏱️ Weekly reporting process fully automated
-* 📊 KPIs from 5+ business systems consolidated into a single reporting pipeline
-* 🤖 AI-generated insights replace repetitive manual analysis
-* 📱 Executive stakeholders receive structured reports automatically every Monday
+* ⏱️ Reduced weekly reporting effort from several hours to zero manual work
+* 📊 Consolidated data from 10+ independent sources into a single KPI reporting layer
+* 🤖 Automated executive analysis and business signal detection using Claude
+* 📱 Delivered structured insights automatically every Monday
+* 📈 Established a reusable reporting framework for future business intelligence initiatives
 
 ---
 
 ## Architecture
 
+![Architecture](ai_kpi_reporting_architecture.svg)
+
+---
+
+## Data Sources
+
+The reporting layer consolidates data from multiple operational and marketing systems:
+
+### Operational Data
+
+* POS / OLAP sales reporting
+* CRM and order management system
+* Customer order sources and channel performance
+
+### Analytics Data
+
+* Google Analytics 4 (Web)
+* Google Analytics 4 (App)
+
+### Marketing Data
+
+* Google Ads (7 advertising accounts)
+* Meta Ads (2 advertising accounts)
+* Apple Search Ads
+* SEO spend tracking
+* SMS / Email marketing spend tracking
+
+### Supporting Data
+
+* USD/UAH exchange rates via Google Finance
+
+All datasets are normalized and aggregated into a unified weekly KPI mart before AI analysis.
+
+---
+
+## ETL Design
+
+Google Sheets is used as a lightweight analytical warehouse and transformation layer.
+
+Data flows through four stages:
+
 ```text
-Data Sources
-(POS · CRM · GA4 · Google Ads · Meta Ads · ASA · SEO · SMS)
-        ↓
-ETL Layer
-Google Sheets
-(IMPORTRANGE · QUERY · ARRAYFORMULA)
-        ↓
-Weekly KPI Vitrine
-(executive_summary)
-        ↓
-n8n Automation
-(scheduled every Monday)
-        ↓
-Claude AI Analysis
-(JSON contract · prompt engineering)
-        ↓
-├── Interactive Dashboard (Cloudflare Workers)
-└── Telegram Notification (summary + link)
+Raw Layer
+    ↓
+Daily Layer
+    ↓
+Weekly Layer
+    ↓
+Executive Summary Mart
 ```
+
+### Key Transformations
+
+* Cross-file imports using `IMPORTRANGE`
+* Automated weekly aggregation using `QUERY` and `ARRAYFORMULA`
+* Currency normalization (USD → UAH)
+* KPI calculations and week-over-week comparisons
+* Multi-source data consolidation
+* Rolling 12-week trend preparation
+
+### Core Functions
+
+```text
+IMPORTRANGE
+QUERY
+ARRAYFORMULA
+UNIQUE
+SORT
+SUMIF
+XLOOKUP
+VLOOKUP
+GOOGLEFINANCE
+```
+
+---
+
+## KPI Mart
+
+The final analytical layer is the `executive_summary` dataset.
+
+It combines:
+
+* Revenue
+* Orders
+* Average Order Value (AOV)
+* Channel Mix
+* Marketing Spend
+* ROAS
+* Conversion Metrics
+* Mobile vs Web Performance
+* Week-over-Week Changes
+
+This dataset serves as the single source of truth for AI analysis.
+
+---
+
+## AI Layer
+
+Claude receives a structured KPI dataset and generates:
+
+* Executive summary
+* Business highlights
+* Growth drivers
+* Risks and anomalies
+* Recommendations for further investigation
+
+### Design Principle
+
+Claude does not generate numbers.
+
+All metrics originate from source systems. AI is responsible only for:
+
+* interpretation
+* prioritization
+* insight generation
+
+This approach minimizes hallucinations and guarantees metric consistency.
+
+---
+
+## Challenges Solved
+
+* Consolidation of heterogeneous operational and marketing datasets
+* Weekly KPI aggregation across multiple systems
+* Currency normalization between USD and UAH sources
+* Rolling 12-week trend analysis
+* Prevention of AI hallucinations through structured JSON contracts
+* Fully automated report generation and distribution
+* Unified reporting across web, app, CRM and advertising platforms
 
 ---
 
 ## Key Design Decisions
 
-### Claude doesn't generate numbers
+### Claude Doesn't Generate Numbers
 
 All metrics originate from source systems. AI is responsible for interpretation, prioritization and insight generation only.
 
 ### Paid ROAS vs Total ROAS
 
-Offline (dine-in) revenue represents a significant share of total sales but cannot be reliably attributed to paid media. The system therefore uses delivery-only ROAS to avoid misleading performance conclusions.
+Offline (dine-in) revenue represents a significant share of total sales but cannot be reliably attributed to paid media.
+
+The system therefore uses delivery-only ROAS to avoid misleading performance conclusions.
 
 ### Rolling 12-Week Window
 
@@ -78,33 +191,47 @@ AI responses follow a predefined schema, enabling deterministic dashboard render
 
 ## Technology Stack
 
-| Layer      | Technology                                         |
-| ---------- | -------------------------------------------------- |
-| Data       | Google Sheets · Windsor.ai · Google Ads Add-on     |
-| ETL        | IMPORTRANGE · QUERY · ARRAYFORMULA · GOOGLEFINANCE |
-| Automation | n8n                                                |
-| AI         | Claude Opus (Anthropic API)                        |
-| Dashboard  | HTML · Chart.js · Cloudflare Workers               |
-| Delivery   | Telegram Bot API                                   |
-
----
-
-## Documentation
-
-*Detailed technical documentation coming soon.*
+| Layer            | Technology                                                         |
+| ---------------- | ------------------------------------------------------------------ |
+| Data Sources     | POS / CRM / GA4 / Google Ads / Meta Ads / Apple Search Ads         |
+| Data Integration | Windsor.ai · Google Ads Add-on                                     |
+| ETL & Modeling   | Google Sheets · QUERY · ARRAYFORMULA · IMPORTRANGE · GOOGLEFINANCE |
+| Automation       | n8n                                                                |
+| AI Analysis      | Claude Opus (Anthropic API)                                        |
+| Dashboard        | HTML · Chart.js · Cloudflare Workers                               |
+| Delivery         | Telegram Bot API                                                   |
 
 ---
 
 ## Project Status
 
 ✅ Data Layer
+
 ✅ ETL Pipeline
+
+✅ KPI Mart
+
 ✅ n8n Automation
+
 ✅ Claude AI Analysis
+
 ✅ Interactive Dashboard
+
 ✅ Telegram Delivery
+
 ✅ Production Deployment
 
 ---
 
+## Future Improvements
+
+* Migration from Google Sheets to a dedicated data warehouse
+* Multi-brand support
+* Forecasting and predictive analytics
+* Automated anomaly detection
+* Executive dashboard with historical AI insights
+
+---
+
 *Built for a Ukrainian restaurant chain. Client data anonymized.*
+

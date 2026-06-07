@@ -39,6 +39,24 @@ An end-to-end automated reporting platform that runs every Monday and delivers:
 
 ---
 
+## n8n Workflow
+
+The orchestration layer is implemented in n8n and executes automatically every Monday.
+
+Workflow steps:
+
+1. Read KPI data from Google Sheets
+2. Prepare 12-week business context
+3. Send structured metrics to Claude
+4. Generate executive insights
+5. Deliver Telegram summary
+6. Build dashboard HTML
+7. Publish dashboard to Cloudflare Workers
+
+![n8n Workflow](n8n.png)
+
+---
+
 ## Data Sources
 
 The reporting layer consolidates data from multiple operational and marketing systems:
@@ -152,18 +170,6 @@ All metrics originate from source systems. AI is responsible only for:
 * insight generation
 
 This approach minimizes hallucinations and guarantees metric consistency.
-
----
-
-## Challenges Solved
-
-* Consolidation of heterogeneous operational and marketing datasets
-* Weekly KPI aggregation across multiple systems
-* Currency normalization between USD and UAH sources
-* Rolling 12-week trend analysis
-* Prevention of AI hallucinations through structured JSON contracts
-* Fully automated report generation and distribution
-* Unified reporting across web, app, CRM and advertising platforms
 
 ---
 

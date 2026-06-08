@@ -23,6 +23,21 @@ An end-to-end automated reporting platform that runs every Monday and delivers:
 
 ---
 
+### Scope
+
+The platform consolidates:
+
+- 2 GA4 properties
+- 7 Google Ads accounts
+- 2 Meta Ads accounts
+- 1 Apple Search Ads account
+- CRM / POS operational data
+- SEO and retention marketing spend
+
+into a unified KPI mart.
+
+---
+
 ## Outcomes
 
 * ⏱️ Reduced weekly reporting effort from several hours to zero manual work
@@ -200,32 +215,12 @@ AI responses follow a predefined schema, enabling deterministic dashboard render
 | Layer            | Technology                                                         |
 | ---------------- | ------------------------------------------------------------------ |
 | Data Sources     | POS / CRM / GA4 / Google Ads / Meta Ads / Apple Search Ads         |
-| Data Integration | Windsor.ai · Google Ads Add-on                                     |
+| Data Integration | Windsor.ai · Google Ads Add-on · Google Finance                    |
 | ETL & Modeling   | Google Sheets · QUERY · ARRAYFORMULA · IMPORTRANGE · GOOGLEFINANCE |
 | Automation       | n8n                                                                |
 | AI Analysis      | Claude Opus (Anthropic API)                                        |
 | Dashboard        | HTML · Chart.js · Cloudflare Workers                               |
 | Delivery         | Telegram Bot API                                                   |
-
----
-
-## Project Status
-
-✅ Data Layer
-
-✅ ETL Pipeline
-
-✅ KPI Mart
-
-✅ n8n Automation
-
-✅ Claude AI Analysis
-
-✅ Interactive Dashboard
-
-✅ Telegram Delivery
-
-✅ Production Deployment
 
 ---
 

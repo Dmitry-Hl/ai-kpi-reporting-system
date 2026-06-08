@@ -48,6 +48,22 @@ into a unified KPI mart.
 
 ---
 
+## Dashboard & AI Insights
+
+### Executive Dashboard
+
+![Dashboard Overview](dashboard_overview.png)
+
+Example dashboard generated from anonymized operational and marketing data.
+
+### AI Analysis Example
+
+Example of executive insights generated automatically from the weekly KPI dataset.
+
+![AI Analysis](dashboard_ai_analysis.png)
+
+---
+
 ## Architecture
 
 ![Architecture](ai_kpi_reporting_architecture.svg)
